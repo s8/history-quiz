@@ -139,6 +139,13 @@
   .feedback.correct { color: var(--green); }
   .feedback.incorrect { color: var(--red); }
   .feedback .answer { font-weight: bold; }
+  button.email-btn {
+    background: var(--green);
+    color: #fff;
+    display: none;
+  }
+  button.email-btn:hover { background: #165a2a; }
+  button.email-btn.show { display: inline-block; }
   .controls {
     text-align: center;
     margin-top: 28px;
@@ -204,6 +211,11 @@
 
   <div class="instructions">
     <strong>Instructions:</strong> Answer each question in the text box. Don't worry about exact capitalization or extra words — answers are checked flexibly. Click <em>Check My Answers</em> at the bottom when you're done.
+  </div>
+
+  <div class="question" style="background:#faf6ec;">
+    <span class="q-text"><strong>Your name:</strong></span>
+    <input type="text" id="studentName" placeholder="Type your name...">
   </div>
 
   <form id="quizForm" onsubmit="return false;">
@@ -284,6 +296,7 @@
 
   <div class="controls">
     <button onclick="checkAnswers()">Check My Answers</button>
+    <button class="email-btn" id="emailBtn" onclick="emailResults()">📧 Email Results to Parent</button>
     <button class="secondary" onclick="resetQuiz()">Reset</button>
     <div class="score-box" id="scoreBox">
       <h2>Your Score</h2>
@@ -294,6 +307,9 @@
 </div>
 
 <script>
+  const PARENT_EMAIL = 'konstantin.leo@gmail.com';
+  let lastResults = null;
+
   function normalize(s) {
     return s.toLowerCase()
             .replace(/[.,!?;:'"]/g, '')
@@ -303,12 +319,14 @@
   }
 
   function checkAnswers() {
-    const questions = document.querySelectorAll('.question');
+    const questions = document.querySelectorAll('#quizForm .question');
     let correct = 0;
-    questions.forEach(q => {
+    const details = [];
+    questions.forEach((q, idx) => {
       const input = q.querySelector('input');
       const feedback = q.querySelector('.feedback');
-      const userAnswer = normalize(input.value);
+      const userAnswerRaw = input.value.trim();
+      const userAnswer = normalize(userAnswerRaw);
       const acceptedRaw = input.dataset.answers.split('|');
       const accepted = acceptedRaw.map(normalize);
       const isCorrect = userAnswer.length > 0 && accepted.some(a => userAnswer === a || (a.length > 3 && userAnswer.includes(a)));
@@ -316,19 +334,27 @@
       input.classList.remove('correct', 'incorrect');
       feedback.classList.remove('correct', 'incorrect');
 
+      const qText = q.querySelector('.q-text').textContent.trim();
+      const correctAnswer = acceptedRaw[0].replace(/\b\w/g, c => c.toUpperCase());
+
       if (isCorrect) {
         input.classList.add('correct');
         feedback.classList.add('correct', 'show');
         feedback.innerHTML = '✓ Correct!';
         correct++;
+        details.push({ n: idx + 1, q: qText, his: userAnswerRaw, right: correctAnswer, ok: true });
       } else {
         input.classList.add('incorrect');
         feedback.classList.add('incorrect', 'show');
-        feedback.innerHTML = '✗ Not quite. Answer: <span class="answer">' + acceptedRaw[0].replace(/\b\w/g, c => c.toUpperCase()) + '</span>';
+        feedback.innerHTML = '✗ Not quite. Answer: <span class="answer">' + correctAnswer + '</span>';
+        details.push({ n: idx + 1, q: qText, his: userAnswerRaw || '(blank)', right: correctAnswer, ok: false });
       }
     });
 
     const total = questions.length;
+    const studentName = (document.getElementById('studentName').value || '').trim();
+    lastResults = { name: studentName, correct, total, details };
+
     const scoreBox = document.getElementById('scoreBox');
     const scoreNum = document.getElementById('scoreNum');
     const scoreMsg = document.getElementById('scoreMsg');
@@ -342,19 +368,47 @@
     else msg = "Watch the video once more and try again — you've got this.";
     scoreMsg.textContent = msg;
     scoreBox.classList.add('show');
+    document.getElementById('emailBtn').classList.add('show');
     scoreBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
+  function emailResults() {
+    if (!lastResults) return;
+    const r = lastResults;
+    const who = r.name ? r.name : 'Your student';
+    const subject = 'American Revolution Quiz — ' + (r.name || 'Results') + ' — ' + r.correct + '/' + r.total;
+    let body = who + ' just finished the American Revolution quiz.\n\n';
+    body += 'Score: ' + r.correct + ' / ' + r.total + '\n';
+    body += 'Date: ' + new Date().toLocaleString() + '\n\n';
+    body += '────────────────────────────\n';
+    body += 'Details:\n';
+    body += '────────────────────────────\n\n';
+    r.details.forEach(d => {
+      body += (d.ok ? '✓ ' : '✗ ') + 'Q' + d.n + '\n';
+      body += 'Question: ' + d.q + '\n';
+      body += 'Answer given: ' + d.his + '\n';
+      if (!d.ok) body += 'Correct answer: ' + d.right + '\n';
+      body += '\n';
+    });
+    const mailto = 'mailto:' + PARENT_EMAIL +
+                   '?subject=' + encodeURIComponent(subject) +
+                   '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+  }
+
   function resetQuiz() {
-    document.querySelectorAll('.question input').forEach(input => {
+    document.querySelectorAll('#quizForm input').forEach(input => {
       input.value = '';
       input.classList.remove('correct', 'incorrect');
     });
+    document.getElementById('studentName').value = '';
     document.querySelectorAll('.feedback').forEach(f => {
       f.classList.remove('show', 'correct', 'incorrect');
       f.innerHTML = '';
     });
     document.getElementById('scoreBox').classList.remove('show');
+    document.getElementById('emailBtn').classList.remove('show');
+    lastResults = null;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
