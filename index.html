@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Revolution — Comprehension Quiz</title>
+<style>
+  :root {
+    --bg: #f5f1e8;
+    --paper: #fffdf7;
+    --ink: #2a1f14;
+    --accent: #8b1a1a;
+    --accent-dark: #6b0f0f;
+    --gold: #b8860b;
+    --green: #1f7a3a;
+    --red: #b22222;
+    --muted: #6b5d4f;
+    --border: #c4b59a;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 20px 12px;
+    font-size: 17px;
+  }
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  @media (max-width: 640px) {
+    body { padding: 12px 8px; }
+    .container { padding: 20px 18px; }
+  }
+  header {
+    text-align: center;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  h1 {
+    font-size: 1.9em;
+    margin: 0 0 6px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.95em;
+  }
+  .video-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    border-radius: 3px;
+  }
+  .video-box a {
+    color: var(--accent);
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .video-box a:hover { text-decoration: underline; }
+  .video-box .small { font-size: 0.88em; color: var(--muted); display: block; margin-top: 4px; }
+  .instructions {
+    background: #faf6ec;
+    border: 1px dashed var(--border);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-size: 0.94em;
+  }
+  .question {
+    margin-bottom: 22px;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+  .q-number {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    margin-right: 10px;
+    font-family: Georgia, serif;
+  }
+  .q-text {
+    font-size: 1.02em;
+    margin-bottom: 10px;
+    display: inline;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 17px;
+    font-family: Georgia, serif;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fdfcf7;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+  }
+  input[type="text"].correct {
+    border-color: var(--green);
+    background: #eaf6ed;
+  }
+  input[type="text"].incorrect {
+    border-color: var(--red);
+    background: #fbecec;
+  }
+  .feedback {
+    margin-top: 8px;
+    font-size: 0.92em;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { color: var(--green); }
+  .feedback.incorrect { color: var(--red); }
+  .feedback .answer { font-weight: bold; }
+  .controls {
+    text-align: center;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 14px 32px;
+    font-size: 17px;
+    font-family: Georgia, serif;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 6px;
+    transition: background 0.2s;
+    min-height: 48px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  button:hover { background: var(--accent-dark); }
+  button.secondary {
+    background: #fff;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  button.secondary:hover { background: #faf0f0; }
+  .score-box {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: #faf6ec;
+    border: 2px solid var(--gold);
+    border-radius: 3px;
+    text-align: center;
+  }
+  .score-box.show { display: block; }
+  .score-box h2 { margin: 0 0 8px; color: var(--accent); }
+  .score-num {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: var(--accent);
+  }
+  .score-message {
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>The American Revolution</h1>
+    <div class="subtitle">A Comprehension Quiz</div>
+  </header>
+
+  <div class="video-box">
+    <strong>Watch first:</strong> <a href="https://www.youtube.com/watch?v=gzALIXcY4pg" target="_blank" rel="noopener">The American Revolution — OverSimplified (Part 1)</a>
+    <span class="small">~15 minutes. Covers events from early colonization through the Battle of Trenton. (Heads-up: brief sponsor segment around 1:00–1:45.)</span>
+  </div>
+
+  <div class="instructions">
+    <strong>Instructions:</strong> Answer each question in the text box. Don't worry about exact capitalization or extra words — answers are checked flexibly. Click <em>Check My Answers</em> at the bottom when you're done.
+  </div>
+
+  <form id="quizForm" onsubmit="return false;">
+
+    <div class="question">
+      <span class="q-number">1</span><span class="q-text">Which war left Britain deeply in debt and led Parliament to start taxing the American colonies?</span>
+      <input type="text" data-answers="seven years war|french and indian war|7 years war" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">2</span><span class="q-text">What famous phrase did colonists use to protest being taxed by Parliament when they had no representatives in it?</span>
+      <input type="text" data-answers="no taxation without representation|taxation without representation" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">3</span><span class="q-text">Name one of the British acts that taxed the colonies (for example, the one on printed paper documents).</span>
+      <input type="text" data-answers="stamp act|townshend acts|townshend act|tea act|sugar act|intolerable acts" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">4</span><span class="q-text">On March 5, 1770, British troops fired into a crowd of hecklers in Boston, killing five colonists. What is this event called?</span>
+      <input type="text" data-answers="boston massacre|the boston massacre" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">5</span><span class="q-text">In December 1773, the Sons of Liberty dumped 342 chests of tea into Boston Harbor to protest a tea tax. What is this event called?</span>
+      <input type="text" data-answers="boston tea party|the boston tea party" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">6</span><span class="q-text">At which two Massachusetts towns did the first shots of the Revolutionary War take place in April 1775? (Either name is fine.)</span>
+      <input type="text" data-answers="lexington|concord|lexington and concord|concord and lexington" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">7</span><span class="q-text">Which patriot famously rode through the night to warn colonists that "the British are coming"?</span>
+      <input type="text" data-answers="paul revere|revere" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">8</span><span class="q-text">Who was named commander of the new Continental Army?</span>
+      <input type="text" data-answers="george washington|washington" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">9</span><span class="q-text">In what year did the Continental Congress adopt the Declaration of Independence?</span>
+      <input type="text" data-answers="1776" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">10</span><span class="q-text">Who was the main author of the Declaration of Independence?</span>
+      <input type="text" data-answers="thomas jefferson|jefferson" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">11</span><span class="q-text">Which German mercenaries did the British hire to fight the American rebels?</span>
+      <input type="text" data-answers="hessians|hessian|the hessians" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+    <div class="question">
+      <span class="q-number">12</span><span class="q-text">On Christmas night 1776, Washington crossed which icy river to launch a surprise attack on the Hessians at Trenton?</span>
+      <input type="text" data-answers="delaware|delaware river|the delaware|the delaware river" placeholder="Type your answer...">
+      <div class="feedback"></div>
+    </div>
+
+  </form>
+
+  <div class="controls">
+    <button onclick="checkAnswers()">Check My Answers</button>
+    <button class="secondary" onclick="resetQuiz()">Reset</button>
+    <div class="score-box" id="scoreBox">
+      <h2>Your Score</h2>
+      <div class="score-num" id="scoreNum"></div>
+      <div class="score-message" id="scoreMsg"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function normalize(s) {
+    return s.toLowerCase()
+            .replace(/[.,!?;:'"]/g, '')
+            .replace(/\bthe\b/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+  }
+
+  function checkAnswers() {
+    const questions = document.querySelectorAll('.question');
+    let correct = 0;
+    questions.forEach(q => {
+      const input = q.querySelector('input');
+      const feedback = q.querySelector('.feedback');
+      const userAnswer = normalize(input.value);
+      const acceptedRaw = input.dataset.answers.split('|');
+      const accepted = acceptedRaw.map(normalize);
+      const isCorrect = userAnswer.length > 0 && accepted.some(a => userAnswer === a || (a.length > 3 && userAnswer.includes(a)));
+
+      input.classList.remove('correct', 'incorrect');
+      feedback.classList.remove('correct', 'incorrect');
+
+      if (isCorrect) {
+        input.classList.add('correct');
+        feedback.classList.add('correct', 'show');
+        feedback.innerHTML = '✓ Correct!';
+        correct++;
+      } else {
+        input.classList.add('incorrect');
+        feedback.classList.add('incorrect', 'show');
+        feedback.innerHTML = '✗ Not quite. Answer: <span class="answer">' + acceptedRaw[0].replace(/\b\w/g, c => c.toUpperCase()) + '</span>';
+      }
+    });
+
+    const total = questions.length;
+    const scoreBox = document.getElementById('scoreBox');
+    const scoreNum = document.getElementById('scoreNum');
+    const scoreMsg = document.getElementById('scoreMsg');
+    scoreNum.textContent = correct + ' / ' + total;
+    const pct = correct / total;
+    let msg;
+    if (pct === 1) msg = "Perfect — you're ready for the exam!";
+    else if (pct >= 0.83) msg = "Excellent work. Review the missed ones and you're set.";
+    else if (pct >= 0.66) msg = "Solid foundation. Rewatch the tricky parts of the video.";
+    else if (pct >= 0.5) msg = "Good start — worth another viewing before bed.";
+    else msg = "Watch the video once more and try again — you've got this.";
+    scoreMsg.textContent = msg;
+    scoreBox.classList.add('show');
+    scoreBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function resetQuiz() {
+    document.querySelectorAll('.question input').forEach(input => {
+      input.value = '';
+      input.classList.remove('correct', 'incorrect');
+    });
+    document.querySelectorAll('.feedback').forEach(f => {
+      f.classList.remove('show', 'correct', 'incorrect');
+      f.innerHTML = '';
+    });
+    document.getElementById('scoreBox').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
