@@ -346,7 +346,7 @@
       } else {
         input.classList.add('incorrect');
         feedback.classList.add('incorrect', 'show');
-        feedback.innerHTML = '✗ Not quite. Answer: <span class="answer">' + correctAnswer + '</span>';
+        feedback.innerHTML = '✗ Try again';
         details.push({ n: idx + 1, q: qText, his: userAnswerRaw || '(blank)', right: correctAnswer, ok: false });
       }
     });
